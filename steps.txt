@@ -1,0 +1,14 @@
+After installing mrtg run this command
+
+	$cfgmaker --global 'WorkDir: /var/www/mrtg' --global 'Options[_]: bits,growright' --ifref=descr --ifdesc=ppname  --output /etc/mrtg/mrtg2.cfg monitor-me@67.58.50.97:::::2
+This command will set the work dir to /var/www/mrtg, and set it to the ip 67.58.50.97 with the community monitor-me and set it 64bit wrapper. 
+This configuration file is create in /etc/mrtg/mrtg2.cfg
+
+For the options for ifref and ifdesc,
+	Descr   Ethernet3/1
+	Eth     00-1c-73-28-c3-7f
+	Ip      67.58.48.1 
+	Name    Ethernet3/1
+	Type    136
+
+Trying to use the indexmaker
