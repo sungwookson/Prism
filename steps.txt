@@ -11,4 +11,34 @@ For the options for ifref and ifdesc,
 	Name    Ethernet3/1
 	Type    136
 
-Trying to use the indexmaker
+#Trying to use the indexmaker
+
+	$indexmaker --output=/var/www/mrtg/index.html --sidebyside /etc/mrtg/mrtg2.cfg
+The indexmaker allows to create a index.html file that displays all the graphs
+at ones. it wtill lacks the capability of displaying in a nice way.
+
+For the oprtions
+ --show=day          pick which graph to show in the index (default)
+ --show=week
+ --show=month
+ --show=year
+ --show=none
+
+#Installing phpMRTGAdmin
+#
+#	$mkdir /var/www/phpMRTG
+#	$cd /var/www/phpMRTG
+#	$curl -O http://phpmrtgadmin.sourceforge.net/download/latest.tar.gz
+#	$tar -xvzf latest.tar.gz
+#	$rm -f latest.tar.gz
+#	$mv www/* .
+#	$rm -f -r www
+
+Found out that there was an error with the phpMRTG I assume that is is because
+pear is not installed
+
+
+Using templates, http://www.steveshipway.org/forum/viewforum.php?f=34 had
+templates that were available. I have played with two different templates, but
+has an error using the tmplate by itself. The template requires alot of edits
+so that it would work
