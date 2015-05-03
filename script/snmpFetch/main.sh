@@ -1,56 +1,64 @@
 #!/bin/sh
 
+SNMP_DATA_DIR="/tmp/foo.snmpwalk"
+PORTCHANNEL_DATA_DIR="/tmp/foo.portchannel"
+ORGANIZED_DATA_DIR="/tmp/foo.organized"
+TEMP1_DIR="/tmp/foo.temp"
+TEMP2_DIR="/tmp/foo.tmp"
+
+COMMUNITY_NAME="monitor-me"
+ROUTER_IP="67.58.50.97"
+
 #save snmpwalk data to tmp/foo
-snmpwalk -v 1 -c monitor-me 67.58.50.97 > /tmp/foo.snmpwalk
+snmpwalk -v 1 -c $COMMUNITY_NAME $ROUTER_IP > $SNMP_DATA_DIR
 echo "Finished fetching snmpwalk"
-echo "The data is stored in /tmp/foo.snmpwalk"
+echo "The data is stored in $SNMP_DATA_DIR"
 echo 
 
 #fetch portchannel list and info
-grep -i port-channel /tmp/foo.snmpwalk | grep -i ifdescr > /tmp/foo.portchannel
+grep -i port-channel $SNMP_DATA_DIR | grep -i ifdescr > $PORTCHANNEL_DATA_DIR
 echo "Finished fetching portchannel information"
-echo "The data is stored in /tmp/foo.portchannel"
+echo "The data is stored in $PORTCHANNEL_DATA_DIR"
 echo
 
 #reading from each line
-echo "" > /tmp/foo.organized
+#echo -e "" > $ORGANIZED_DATA_DIR
+cat /dev/null > $ORGANIZED_DATA_DIR
 while read -r line
 do
-    tmpline=$line
-    code=${tmpline:16:7}
-    name=${tmpline:34}
+    code=${line:16:7}
+    portChannel=${line:34}
+    grep $code $SNMP_DATA_DIR | grep mib-2.77 > $TEMP1_DIR
 
-    grep $code /tmp/foo.snmpwalk | grep mib-2.77 > /tmp/foo.temp
-
-    while read -r li
+    while read -r lin
     do
-        temp=$li
-        ifindex=${temp:29:4}
+        ifindex=${lin:29:4}
         if [[ $ifindex == *"."* ]] || [[ $ifindex == "1000" ]]
         then 
         	ifindex="0";
-        	echo -e "$code \t $name \t $ifindex \t" >> /tmp/foo.organized
+        	#The zeros dont know why this happens
+        	#echo -e "$code \t $porChannel \t $ifindex \t" >> $ORGANIZED_DATA_DIR
         else 
-        	grep $ifindex /tmp/foo.snmpwalk | grep -i ifname > /tmp/foo.tmp
-        	
-        	while read -r lin
+        	grep $ifindex $SNMP_DATA_DIR | grep -i ifname > $TEMP2_DIR
+        	ifaliasline="$(grep $ifindex $SNMP_DATA_DIR | grep -i ifalias)"
+        	ifalias=${ifaliasline:31}
+        	while read -r li
 			do
-				tmp=$lin
-				ifname=${tmp:30}
-	        	echo -e "$code \t $name \t $ifindex \t $ifname" >> /tmp/foo.organized
+				ifname=${li:30}
+	        	echo -e "$code \t $name \t $ifindex \t $ifname \t $ifalias" >> $ORGANIZED_DATA_DIR
 
-			done < /tmp/foo.tmp
+			done < $TEMP2_DIR
 
         fi
         
         
-    done < /tmp/foo.temp
+    done < $TEMP1_DIR
     
-done < /tmp/foo.portchannel
+done < $PORTCHANNEL_DATA_DIR
 
 
 echo "Finished reading lines from portchannel"
-echo "The organized data will be stored in /tmp/foo.organized"
+echo "The organized data will be stored in $ORGANIZED_DATA_DIR"
 echo
 
 

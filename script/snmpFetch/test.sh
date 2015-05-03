@@ -1,36 +1,22 @@
-#!/bin/bash
+#!/bin/sh
 
-echo "" > /tmp/foo.organized
+SNMP_DATA_DIR="/tmp/foo.snmpwalk"
+PORTCHANNEL_DATA_DIR="/tmp/foo.portchannel"
+ORGANIZED_DATA_DIR="/tmp/foo.organized"
+TEMP1_DIR="/tmp/foo.temp"
+TEMP2_DIR="/tmp/foo.tmp"
+TEMP3_DIR="/tmp/foo.tm"
+TEMP4_TEMP="/tmp/temp"
+COMMUNITY_NAME="monitor-me"
+ROUTER_IP="67.58.50.97"
+
+#fetching the rest of the information
+grep -i ifdescr $SNMP_DATA_DIR > $TEMP3_DIR
 while read -r line
 do
-    tmpline=$line
-    code=${tmpline:16:7}
-    name=${tmpline:34}
+	ifindex=${line:13:4}
+	code=${line:0:8}
+	grep -v $ifindex $TEMP3_DIR | grep -v $code > $TEMP4_TEMP
+	cat $TEMP4_TEMP > $TEMP3_DIR
+done < $ORGANIZED_DATA_DIR
 
-    grep $code /tmp/foo.snmpwalk | grep mib-2.77 > /tmp/foo.temp
-
-    while read -r li
-    do
-        temp=$li
-        ifindex=${temp:29:4}
-        if [[ $ifindex == *"."* ]] || [[ $ifindex == "1000" ]]
-        then 
-        	ifindex="0";
-        	echo -e "$code \t $name \t $ifindex \t" >> /tmp/foo.organized
-        else 
-        	grep $ifindex /tmp/foo.snmpwalk | grep -i ifname > /tmp/foo.tmp
-        	
-        	while read -r lin
-			do
-				tmp=$lin
-				ifname=${tmp:30}
-	        	echo -e "$code \t $name \t $ifindex \t $ifname" >> /tmp/foo.organized
-
-			done < /tmp/foo.tmp
-
-        fi
-        
-        
-    done < /tmp/foo.temp
-    
-done < /tmp/foo.portchannel
