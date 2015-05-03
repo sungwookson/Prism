@@ -22,7 +22,6 @@ echo "The data is stored in $PORTCHANNEL_DATA_DIR"
 echo
 
 #reading from each line
-#echo -e "" > $ORGANIZED_DATA_DIR
 cat /dev/null > $ORGANIZED_DATA_DIR
 while read -r line
 do
