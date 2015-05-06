@@ -20,3 +20,8 @@ do
 	cat $TEMP4_TEMP > $TEMP3_DIR
 done < $ORGANIZED_DATA_DIR
 
+while read -r line
+do
+	ifname=${line#*: }
+	echo $value;
+done < $TEMP3_DIR

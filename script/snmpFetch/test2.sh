@@ -10,7 +10,7 @@ COMMUNITY_NAME="monitor-me"
 ROUTER_IP="67.58.50.97"
 
 #save snmpwalk data to tmp/foo
-snmpwalk -v 1 -c $COMMUNITY_NAME $ROUTER_IP > $SNMP_DATA_DIR
+#snmpwalk -v 1 -c $COMMUNITY_NAME $ROUTER_IP > $SNMP_DATA_DIR
 echo "Finished fetching snmpwalk"
 echo "The data is stored in $SNMP_DATA_DIR"
 echo 
@@ -57,6 +57,7 @@ do
     done < $TEMP1_DIR
     
 done < $PORTCHANNEL_DATA_DIR
+
 
 echo "Finished reading lines from portchannel"
 echo "The organized data will be stored in $ORGANIZED_DATA_DIR"
