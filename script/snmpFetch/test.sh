@@ -11,7 +11,7 @@ COMMUNITY_NAME="monitor-me"
 ROUTER_IP="67.58.50.97"
 
 #fetching the rest of the information
-grep -i ifdescr $SNMP_DATA_DIR > $TEMP3_DIR
+grep -i ifdescr $SNMP_DATA_DIR | grep -i Ethernet > $TEMP3_DIR
 while read -r line
 do
 	ifindex=${line:13:4}
@@ -22,6 +22,10 @@ done < $ORGANIZED_DATA_DIR
 
 while read -r line
 do
+	ifindex=${line#*.}
+	ifindex=${ifindex% =*}
 	ifname=${line#*: }
-	echo $value;
+	ifalias=$(grep -i ifalias $SNMP_DATA_DIR | grep $ifindex) 
+	ifalias=${ifalias#*: }
+	echo -e "$ifindex \t Ethernet \t $ifindex \t $ifname \t $ifalias" >> $ORGANIZED_DATA_DIR
 done < $TEMP3_DIR
