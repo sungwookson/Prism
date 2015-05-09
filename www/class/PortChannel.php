@@ -1,5 +1,4 @@
 <?php
-	require_once('conf.php');
 	class PortChannel
 	{
 		public $data;

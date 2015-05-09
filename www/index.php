@@ -1,8 +1,9 @@
 <?php
-	require_once('conf.php');
-	require('DataFetcher.php');
-	require('PortChannel.php');
-	require('Ethernet.php');
+	require_once('framework/conf.php');
+	require('class/DataFetcher.php');
+	require('class/PortChannel.php');
+	require('class/Ethernet.php');
+	require('class/HTML.php');
 	
 	
 	$dataFetcher = new DataFetcher($organizedData);
