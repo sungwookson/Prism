@@ -35,12 +35,18 @@
 			return $this->aliasName;
 		}
 		public function printHTML(){
-			$exec = "find ".$this->mrtgData." -iname \"*.png\" -print | grep -i " . $this->portChannel . " | sort";
+			$exec = "find ".$this->mrtgData." -iname \"*.png\" -print | grep -i " . $this->portChannel . "- | sort";
 			$lines = shell_exec ( $exec);
 			$imageLocation = preg_split('/[\s]+/', $lines);
+			echo "<div class=\"portchannel\">";
+			
 			echo "<H1>". $this->portChannel." (".$this->aliasName.") </H1>";
+			echo "";
 			$imageLocation[0] = str_replace("/var/www","",$imageLocation[0]);
-			echo "<img src=\"". $imageLocation[0] . "\"/>";
+			
+			
+			echo "<img src=\"". $imageLocation[0] . "\" width=\"400\"/>";
+			echo "</div>";
 			
 		}
 		

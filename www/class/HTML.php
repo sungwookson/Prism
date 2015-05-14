@@ -3,47 +3,91 @@
 		private $style;
 		private $body;
 		
-		public function __construct($style, $body) {
-			$this->style = $style;
-			$this->body = $body;
+		public function __construct() {
+			$this->style = "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">
+			<script src=\"//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js\"></script>
+<script src=\"/js/jquery.masonry.min.js\"></script><style>
+  .portchannel {
+    float: left; /* This is necessary */
+    width: 400;
+    background-color: #CCC;
+    margin: 5px;
+    padding: 5px 5px;
+  }
+  .ethernet {
+    float: left; /* This is necessary */
+    width: 400;
+    background-color: #8CB5D2;
+    margin: 5px;
+    padding: 5px 5px;
+  }
+  .wide {
+    width: 440px; /* This is to compensate for margin and padding (2*200px)+(2*5px)+(2*5px) */
+    background-color: gray;
+  }
+  h1 {
+    font-family: arial;
+    font-size: 16px;
+  }
+</style>
+";
+			$this->body = "";
 		}
 
-		function title(){
-			return "Prism Network Manager"
+		function titleHTML(){
+			return "Prism Network Manager";
 		}
-		function style(){
+		function styleHTML(){
 			return $this->style;
 		}
 		
-		function header(){
-			return <<< EOF
-			<table bgcolor="#7777aa" width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td><h1>Complex table layout example</h1></td>
-				</tr>
-			</table>
-			EOF;
+		function headerHTML(){
+			return "";
 		}
-		function mainBody(){
+		function mainBodyHTML(){
 			return $this->body;
 		}
-		function footer(){
-			
+		function footerHTML(){
+			return "";
 		}
-		function print(){
-			echo <<< EOF
-			<html>
+		function printHTML(){
+			echo "<html>
 				<head>
-					<title>{title()}</title>
-					{style()}
+					<title>{titleHTML()}</title>
+					{styleHTML()}
 				</head>
 				<body>
-					{header()}
-					{mainbody()}
-					{footer()}
+					{headerHTML()}
+					{mainBodyHTML()}
+					{footerHTML()}
 				</body>
-			</html>
-			EOF;
+			</html>";
+		}
+		function printFront(){
+			echo "<html>
+					<head>
+						<title>".
+							$this->titleHTML().
+						"</title>".
+						$this->styleHTML().
+					"</head>
+					<body>
+						<div id=\"container\">";
+		}
+		function printLast(){
+			echo "</div>
+			<script>$(function(){
+ $('#container').masonry({
+   // options
+   itemSelector : '.portchannel, .ethernet, h1',
+   columnWidth : 240
+ });
+});</script>".
+			$this->headerHTML().
+					$this->mainBodyHTML().
+					$this->footerHTML().
+				"</body>
+			</html>";
 		}
 		
 	}
