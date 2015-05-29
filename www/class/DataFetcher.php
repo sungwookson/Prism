@@ -14,6 +14,7 @@
 			$content = file_get_contents($this->fileURL);
 			$content = explode("\n", $content);
 			foreach($content as $value) {
+				$value = str_replace(" ", "", $value);
 				if (empty($value)) continue;
 				if ($this->isPortChannel($value)){
 					$portChannel = $this->contains(preg_split('/[\s]+/', $value));

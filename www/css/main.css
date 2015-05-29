@@ -9,5 +9,38 @@ html, body, .container
     width: 50%;
     height: 50%;
 }
+h1 {
+	font-family: arial;
+	font-size: 16px;
+}
 
-
+div[class^="Port-Channel"] {
+        display: none;
+        position: absolute;
+        width: 740px;
+        padding: 5px;
+        background: #eeeeee;
+        color: #000000;
+        border: 1px solid #1a1a1a;
+        font-size: 90%;
+}
+div.ethernetPop {
+	float: left;
+	width: 350px;
+	margin: 5px;	
+	padding: 5px 5px;
+}
+.portchannel {
+	float: left; /* This is necessary */
+	width: 410;	
+	background-color: #CCC;
+	margin: 5px;	
+	padding: 5px 5px;
+}
+.ethernet {
+	float: left; /* This is necessary */
+	width: 410;
+	background-color: #8CB5D2;
+	margin: 5px;
+	padding: 5px 5px;
+}

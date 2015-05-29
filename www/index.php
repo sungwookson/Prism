@@ -9,10 +9,11 @@
 	$dataFetcher = new DataFetcher($organizedData);
 	$portChannels = $dataFetcher->getPortChannel();
 	$ethernets = $dataFetcher->getEthernet();
-	$html = new HTML();
+	$html = new HTML($dataFetcher);
 	$html->printFront();
 
 	foreach ($portChannels as $portChannel) {
+		
 		$portChannel->printHTML();
 	}
 	
@@ -20,7 +21,12 @@
 		$ethernet->printHTML();
 	}
 	
-	$html ->printLast();
+	foreach ($portChannels as $portChannel) {
+		
+		$portChannel->printPopOver();
+	}
+	
+	$html->printLast();
 	
 ?>
 
