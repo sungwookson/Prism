@@ -11,7 +11,7 @@ COMMUNITY_NAME="monitor-me"
 ROUTER_IP="67.58.50.97"
 
 #save snmpwalk data to tmp/foo
-#snmpwalk -v 1 -c $COMMUNITY_NAME $ROUTER_IP > $SNMP_DATA_DIR
+snmpwalk -v 1 -c $COMMUNITY_NAME $ROUTER_IP > $SNMP_DATA_DIR
 echo "Finished fetching snmpwalk"
 echo "The data is stored in $SNMP_DATA_DIR"
 echo 
@@ -29,7 +29,6 @@ do
 	code=${line#*.};
 	code=${code% =*}
     portChannel=${line#*: }
-    echo "\"$portChannel\""
     grep $code $SNMP_DATA_DIR | grep mib-2.77 > $TEMP1_DIR
 
     while read -r lin
