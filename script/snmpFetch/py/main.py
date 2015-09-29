@@ -1,7 +1,7 @@
 from pysnmp.entity.rfc3413.oneliner import cmdgen
 
 import pysnmp
-import function
+###import function
 import json
 #from snmp_helper import snmp_get_oid,snmp_extract
 
@@ -20,7 +20,7 @@ def getSNMPAlias(cmdGen):
 def getSNMPEthernetPortChannel(cmdGen):
 	return snmpFetch(cmdGen, IF_PORT) #returns portchannel ethernet relation
 
-def snmpFetch(cmdGen, search): #fetch information
+def snmpFetch(cmdGen, search): #fetch command
 	errorIndication, errorStatus, errorIndex, varBindTable = cmdGen.nextCmd(
     cmdgen.CommunityData(COMMUNITY_NAME),
     cmdgen.UdpTransportTarget((ROUTER_IP, 161)),
@@ -42,7 +42,6 @@ EthernetPorts = getSNMPEthernetPortChannel(cmdGen)
 
 for port in SMMPPorts:
 	for name, val in port:
-		
 		name = name.prettyPrint().replace(IF_DESCR + ".", "")
 		val = val.prettyPrint()
 		infoDict = {'ifIndex':name, 'ifDescr':val}
@@ -52,15 +51,13 @@ for port in SMMPPorts:
 		elif val.startswith ("Port-Channel"):
 			infoDict['type']="PortChannel"
 			PortChannelList.append(infoDict)
-	
-	
-	
+
 	
 for alias in SNMPAlias:
 	for name, val in alias:
 		name = name.prettyPrint().replace(SNMPAlias + ".", "")
 		val = val.prettyPrint()
-		
+		print name + " : " + val
 		match = next((l for l in label if l['name'] == 'Test'), None)
 		
 		
